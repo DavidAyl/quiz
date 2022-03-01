@@ -1,3 +1,38 @@
+// setting variables for the quiz
+
+var beginEl = document.querySelector("#start");
+var mainEl = document.querySelector("#main");
+var endEl = document.querySelector("#end");
+
+var startBtn = document.querySelector("#startbtn");
+var initialsInput = document.querySelector("#initials");
+
+// setting functions for different sections of the quiz
+
+function beginSection() {
+  beginEl.style.display = "block";
+  mainEl.style.display = "none";
+  endEl.style.display = "none";
+  setTime.style.display = "none";
+}
+function mainSection() {
+  beginEl.style.display = "none";
+  mainEl.style.display = "block";
+  endEl.style.display = "none";
+  setTime.style.display = "block";
+}
+function endSection() {
+  beginEl.style.display = "none";
+  mainEl.style.display = "none";
+  endEl.style.display = "block";
+  setTime.style.display = "none";
+}
+
+// setting up button to start game
+
+startBtn.addEventListener("click", mainSection);
+startBtn.addEventListener("click", setTime);
+
 // Selects element by class
 var timeEl = document.querySelector(".time");
 
@@ -26,36 +61,3 @@ function setTime() {
 function sendMessage() {
   timeEl.textContent = "Times up";
 }
-
-setTime();
-
-// setting variables for the quiz
-
-var beginEl = document.querySelector("#start");
-var mainEl = document.querySelector("#main");
-var endEl = document.querySelector("#end");
-
-var startBtn = document.querySelector("#startbtn");
-var initialsInput = document.querySelector("#initials");
-
-// setting functions for different sections of the quiz
-
-function beginSection() {
-  beginEl.style.display = "block";
-  mainEl.style.display = "none";
-  endEl.style.display = "none";
-}
-function mainSection() {
-  beginEl.style.display = "none";
-  mainEl.style.display = "block";
-  endEl.style.display = "none";
-}
-function endSection() {
-  beginEl.style.display = "none";
-  mainEl.style.display = "none";
-  endEl.style.display = "block";
-}
-
-// setting up button to start game
-
-startBtn.addEventListener("click", mainSection, setTime);
