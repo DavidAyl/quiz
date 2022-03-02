@@ -13,19 +13,20 @@ function beginSection() {
   beginEl.style.display = "block";
   mainEl.style.display = "none";
   endEl.style.display = "none";
-  setTime.style.display = "none";
 }
 function mainSection() {
   beginEl.style.display = "none";
   mainEl.style.display = "block";
   endEl.style.display = "none";
-  setTime.style.display = "block";
 }
 function endSection() {
   beginEl.style.display = "none";
   mainEl.style.display = "none";
   endEl.style.display = "block";
-  setTime.style.display = "none";
+}
+
+function sendMessage() {
+  timeEl.textContent = "Times Up";
 }
 
 // setting up button to start game
@@ -54,10 +55,7 @@ function setTime() {
       clearInterval(timerInterval);
       // Calls function to send times up message
       sendMessage();
+      endSection();
     }
   }, 1000);
-}
-
-function sendMessage() {
-  timeEl.textContent = "Times up";
 }
