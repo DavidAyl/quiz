@@ -29,6 +29,7 @@ var endEl = document.querySelector("#end");
 
 var startBtn = document.querySelector("#startbtn");
 var initialsInput = document.querySelector("#initials");
+var submitBtn = document.querySelector("#sbmitBtn");
 
 // setting functions for different sections of the quiz
 
@@ -56,15 +57,22 @@ function sendMessage() {
 
 function handleInitialSubmit(event) {
   event.preventDefault();
-
   var stored = JSON.parse(localStorage.getItem("highScores")) || [];
   var updatedScores = stored.concat({
-    score: score,
+    score: `${secondsLeft}`,
     initials: initialsInput.value,
   });
-
   localStorage.setItem("highScores", JSON.stringify(updatedScores));
+  for (var i = 0; i < updatedScores.length; i++) {
+    var scoreItem = updatedScores[i];
+    console.log(scoreItem);
+    var pEl = document.createElement("p");
+    pEl.textContent = scoreItem.initials + ": " + scoreItem.score;
+    endEl.append(pEl);
+  }
 }
+
+submitBtn.addEventListener("click", handleInitialSubmit);
 
 function init() {
   startScreen();
