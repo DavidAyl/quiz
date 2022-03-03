@@ -1,27 +1,27 @@
+var timerInterval;
+
 var questionsArray = [
   {
     text: "What is 1 + 1",
-    choices: [1, 2, 11, 44],
-    answer: "2",
+    choices: ["1", "2", "11", "44"],
+    correct: "2",
   },
   {
     text: "What is 10/2",
-    choices: [5, 6, 17, 42],
-    answer: "5",
+    choices: ["5", "6", "17", "42"],
+    correct: "5",
   },
   {
     text: "How many eggs in a dozen",
-    choices: [6, 2, 42, 12],
-    answer: "12",
+    choices: ["6", "2", "42", "12"],
+    correct: "12",
   },
 ];
 
 var currentIndex = 0;
 
-console.log(questionsArray[1].text);
-
 // setting variables for the quiz
-
+var rightOrWrong = document.querySelector("#right-or-wrong");
 var beginEl = document.querySelector("#start");
 var mainEl = document.querySelector("#main");
 
@@ -54,38 +54,53 @@ function sendMessage() {
   timeEl.textContent = "Times Up";
 }
 
-function nextQuestion() {
+function handleInitialSubmit(event) {
+  event.preventDefault();
+
+  var stored = JSON.parse(localStorage.getItem("highScores")) || [];
+  var updatedScores = stored.concat({
+    score: score,
+    initials: initialsInput.value,
+  });
+
+  localStorage.setItem("highScores", JSON.stringify(updatedScores));
+}
+
+function init() {
+  startScreen();
+}
+
+function checkAnswer(answer) {
+  console.log(answer + " vs. " + questionsArray[currentIndex].correct);
+  if (answer == questionsArray[currentIndex].correct) {
+    alert("Correct!");
+  } else {
+    alert("Wrong!");
+    secondsLeft -= 10;
+  }
+}
+
+function nextQuestion(event) {
+  checkAnswer(event.target.textContent);
   currentIndex++;
-  console.log(currentIndex);
 
   // reset the container
   mainEl.innerHTML = "";
-
-  displayQuestion();
+  if (currentIndex < questionsArray.length) {
+    displayQuestion();
+  } else {
+    clearInterval(timerInterval);
+    endSection();
+  }
 }
 
 function displayQuestion() {
-  // <h3>Questions</h3>
-  // <button>2</button>
-  // <button>6</button>
-  // <button>11</button>
-  // <button>44</button>
   var questionh3 = document.createElement("h3");
 
   questionh3.textContent = questionsArray[currentIndex].text;
   mainEl.append(questionh3);
 
-  // var answer1 = document.createElement("button");
-  // answer1.textContent = questionsArray[currentIndex].choices[0];
-
-  // var answer2 = document.createElement("button");
-  // answer2.textContent = questionsArray[currentIndex].choices[1];
-
-  // var answer3 = document.createElement("button");
-  // answer3.textContent = questionsArray[currentIndex].choices[2];
-
-  // var answer4 = document.createElement("button");
-  // answer4.textContent = questionsArray[currentIndex].choices[3];
+  // node.dataset.value = key;
 
   for (i = 0; i < questionsArray[currentIndex].choices.length; i++) {
     var answerEl = document.createElement("button");
@@ -111,7 +126,7 @@ timeEl.textContent = secondsLeft;
 
 function setTime() {
   // Sets interval in variable
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     secondsLeft--;
     timeEl.textContent = secondsLeft;
 
@@ -124,3 +139,5 @@ function setTime() {
     }
   }, 1000);
 }
+
+// need to check if correct answer of current question matches current question clicked
